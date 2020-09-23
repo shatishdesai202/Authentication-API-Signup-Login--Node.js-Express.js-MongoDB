@@ -1,4 +1,5 @@
 const routes = require('express').Router();
+
 const userModel = require('../models/user');
 
 
@@ -46,7 +47,7 @@ routes.post('/', async (req, res) => {
     // check email is exist or not
 
     const emailExist = await userModel.findOne({email: req.body.email});
-    
+
     if(emailExist) {return res.status(400).send('Email is Exist')};
 
 
@@ -79,7 +80,7 @@ routes.post('/login', async (req, res)=>{
 
     const findUser = await userModel.findOne( {email : req.body.email} );
 
-    if(!findUser){ 
+    if(!findUser){
        return res.status(400).send('Email Not Found');
     }
 
@@ -90,7 +91,7 @@ routes.post('/login', async (req, res)=>{
 
     const token = jwt.sign({ _id: findUser._id }, 'shatishdesai');
     res.header('auth-token', token).send(token);
-    
+
 });
 
 module.exports = routes;
